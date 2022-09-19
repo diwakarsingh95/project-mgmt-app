@@ -13,6 +13,8 @@ const AddProjectModal = () => {
 
   const { loading, error, data } = useQuery(GET_CLIENTS)
 
+  const isInvalid = !name || !description || !status || !clientId
+
   const [addProject] = useMutation(ADD_PROJECT, {
     variables: { name, description, status, clientId },
     update(cache, { data: { addProject } }) {
@@ -27,7 +29,7 @@ const AddProjectModal = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    if (!name || !description || !status || !clientId) {
+    if (isInvalid) {
       return alert('Please fill in all fields!')
     }
 
@@ -132,15 +134,17 @@ const AddProjectModal = () => {
                       onChange={(e) => setClientId(e.target.value)}
                     >
                       <option value=''>Select Client</option>
-                      {data.clients.map(client => (
-                        <option key={client.id} value={client.id}>{client.name}</option>
+                      {data.clients.map((client) => (
+                        <option key={client.id} value={client.id}>
+                          {client.name}
+                        </option>
                       ))}
                     </select>
                   </div>
 
                   <button
                     type='submit'
-                    data-bs-dismiss='modal'
+                    data-bs-dismiss={isInvalid ? '' : 'modal'}
                     className='btn btn-primary'
                   >
                     Submit
