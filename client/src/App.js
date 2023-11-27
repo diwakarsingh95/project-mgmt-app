@@ -26,7 +26,7 @@ const cache = new InMemoryCache({
   }
 })
 
-const url = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000'
+const url = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080'
 
 const client = new ApolloClient({
   uri: `${url}/graphql`,
